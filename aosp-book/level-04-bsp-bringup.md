@@ -1,4 +1,4 @@
-# Level 4 — BSP & Device Bring‑Up
+# Level 4 — BSP & Device Bring-Up
 
 > *"Bring-up is where Android meets reality. The kernel is not yours; the bootloader is not yours; the silicon is not yours; and yet, you must make them all behave like Android."*
 
@@ -93,7 +93,7 @@ PRODUCT_COPY_FILES += \
     device/google/cuttlefish/shared/config/init.product.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.product.rc
 ```
 
-🎯 **Staff‑Level Insight:** `inherit-product` is **order-sensitive and override-prone**. Late inherits override earlier ones for `?=` style assignments. Read the full inheritance chain (`m printvars`) before adding a property; you may be silently shadowed.
+🎯 **Staff-Level Insight:** `inherit-product` is **order-sensitive and override-prone**. Late inherits override earlier ones for `?=` style assignments. Read the full inheritance chain (`m printvars`) before adding a property; you may be silently shadowed.
 
 ---
 
@@ -144,7 +144,7 @@ launch_cvd --kernel_path=out/kernel_x86_64/dist/bzImage \
 
 ### 4.2.3 What You Should Know About the Kernel as a Platform Engineer
 
-You don’t need to write drivers, but you must read kernel logs, understand:
+You don't need to write drivers, but you must read kernel logs, understand:
 
 - **dmesg severities** (`<3>` error, `<4>` warning, `<6>` info).
 - **kernel cmdline** (`androidboot.*`).
@@ -257,13 +257,13 @@ tail -f $HOME/cuttlefish_runtime/logs/logcat
 ```
 
 Useful artifacts:
-- `kernel.log` — virtual kernel’s dmesg (host-visible).
+- `kernel.log` — virtual kernel's dmesg (host-visible).
 - `logcat` — Android logs streamed from guest.
 - `launcher.log` — crosvm + assemble_cvd output.
 
 ### 4.5.4 Modifying the Cuttlefish BSP
 
-🛠️ **Hands‑On — Add a Vendor Init Property:**
+🛠️ **Hands-On — Add a Vendor Init Property:**
 
 Edit `device/google/cuttlefish/shared/config/init.vendor.rc`:
 ```rc
@@ -277,7 +277,7 @@ launch_cvd
 adb shell getprop vendor.bookdemo.enabled
 ```
 
-🛠️ **Hands‑On — Add a Custom Vendor HAL** (from Level 3) and verify it boots and is in `lshal`.
+🛠️ **Hands-On — Add a Custom Vendor HAL** (from Level 3) and verify it boots and is in `lshal`.
 
 ---
 

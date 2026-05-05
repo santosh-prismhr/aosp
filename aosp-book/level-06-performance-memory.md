@@ -2,7 +2,7 @@
 
 > *"Performance work on Android is not about clever micro-optimizations. It is about understanding what the system is doing every microsecond — boot, scheduling, memory, I/O, binder — and removing the work you did not need to do in the first place."*
 
-By this level you can build, modify, and debug AOSP. Staff-level performance work is what separates engineers who *ship* Android products from those who *struggle* to ship them. This chapter teaches the mental models, the tools, and the production patterns used at OEMs and Tier‑1 silicon vendors.
+By this level you can build, modify, and debug AOSP. Staff-level performance work is what separates engineers who *ship* Android products from those who *struggle* to ship them. This chapter teaches the mental models, the tools, and the production patterns used at OEMs and Tier-1 silicon vendors.
 
 ---
 
@@ -51,7 +51,7 @@ Cold boot (Cuttlefish)      ~10–20 s
 Cold boot (real automotive) ~1.5–3 s to backup-camera, ~12–20 s to full IVI
 ```
 
-🎯 **Staff‑Level Insight:** When a peer says "let's just add a binder call," you should immediately translate that to "150 µs on the critical path, every invocation, forever." Most regressions ship because nobody priced the call.
+🎯 **Staff-Level Insight:** When a peer says "let's just add a binder call," you should immediately translate that to "150 µs on the critical path, every invocation, forever." Most regressions ship because nobody priced the call.
 
 ---
 
@@ -135,7 +135,7 @@ Ranked by typical impact on a real product:
 
 ### 6.2.4 Worked Example — Saving 800 ms on Cuttlefish
 
-🛠️ **Hands‑On:**
+🛠️ **Hands-On:**
 
 ```bash
 # Baseline
@@ -143,7 +143,7 @@ adb shell getprop ro.boottime.init.selinux  # e.g. 412 ms
 
 # 1. Move non-critical service to late
 $EDITOR frameworks/base/services/java/com/android/server/SystemServer.java
-# wrap startTextServicesManagerService(), startLockSettingsService() … inside
+# wrap startTextServicesManagerService(), startLockSettingsService() ... inside
 # t.traceBegin/traceEnd and move them to startOtherServices() late phase.
 
 # 2. Trim preloaded-classes
@@ -151,11 +151,11 @@ m build-art-boot-profile
 # regenerate boot image profile from your golden trace
 ```
 
-Reboot, re-trace, diff in Perfetto’s **System View → Process Lifecycle** track.
+Reboot, re-trace, diff in Perfetto's **System View → Process Lifecycle** track.
 
 🐞 **Common Production Bug:** A vendor adds a `class core` HAL that takes 1.2 s to probe (waiting for I²C). Boot regresses by 1.2 s. Fix: move HAL to `class hal` or `class late_start`, and make the underlying driver async-probe.
 
-🎯 **Staff‑Level Insight:** Never optimize boot without a flame-graph-style trace. Engineers routinely "optimize" code that wasn't on the critical path — Amdahl punishes them. The Perfetto **Critical Path** plugin (Android 14+) shows the wakeup chain that gates `boot_completed`.
+🎯 **Staff-Level Insight:** Never optimize boot without a flame-graph-style trace. Engineers routinely "optimize" code that wasn't on the critical path — Amdahl punishes them. The Perfetto **Critical Path** plugin (Android 14+) shows the wakeup chain that gates `boot_completed`.
 
 ---
 
@@ -201,7 +201,7 @@ Native Heap, Dalvik Heap, Dalvik Other, Stack, Ashmem, Gfx dev, Other dev,
 Other mmap, EGL mtrack, GL mtrack, Unknown
 ```
 
-🎯 **Staff‑Level Insight:** When debugging "this app uses too much memory," always start at `dumpsys meminfo -a` and look at **Pss Total**, then **Private Dirty** — that's the killable, reclaimable cost.
+🎯 **Staff-Level Insight:** When debugging "this app uses too much memory," always start at `dumpsys meminfo -a` and look at **Pss Total**, then **Private Dirty** — that's the killable, reclaimable cost.
 
 ### 6.3.3 Zygote, App Processes, and Copy-on-Write
 
@@ -291,7 +291,7 @@ adb shell dumpsys activity oom    # full ranked list
 
 When lmkd needs to free memory, it walks processes from highest adj down and kills until pressure recedes.
 
-🎯 **Staff‑Level Insight:** A common "my app is killed too aggressively" complaint is really "my service is not promoting the process to foreground." Check `dumpsys activity processes <pkg>` and look at the `adj=` line. If you’re in `cached`, you’re killable — that's correct behavior.
+🎯 **Staff-Level Insight:** A common "my app is killed too aggressively" complaint is really "my service is not promoting the process to foreground." Check `dumpsys activity processes <pkg>` and look at the `adj=` line. If you're in `cached`, you're killable — that's correct behavior.
 
 ### 6.4.3 Reading lmkd Decisions
 
@@ -342,7 +342,7 @@ ORDER BY dur DESC LIMIT 20;
 
 ```bash
 adb shell atrace --async_start -b 32768 sched gfx view wm am
-# … reproduce issue …
+# ... reproduce issue ...
 adb shell atrace --async_stop -o /data/local/tmp/trace.html
 ```
 
@@ -433,7 +433,7 @@ adb shell bpftrace -e 'tracepoint:binder:binder_transaction { @[comm] = count();
 5. Java heap leaks — capture HPROF: `am dumpheap <pid> /data/local/tmp/x.hprof`, analyze with Android Studio Memory Profiler or `perfetto/tools/heap_profile`.
 6. Native leaks — enable `libc.debug.malloc.options=backtrace` (debuggable builds), then `am dumpheap -n <pid> ...`.
 
-🎯 **Staff‑Level Insight:** If you see `Lost RAM` growing on a soak test, stop debugging the framework and start debugging the **vendor kernel**. 9 times out of 10 it’s a graphics or modem driver leak.
+🎯 **Staff-Level Insight:** If you see `Lost RAM` growing on a soak test, stop debugging the framework and start debugging the **vendor kernel**. 9 times out of 10 it's a graphics or modem driver leak.
 
 ---
 

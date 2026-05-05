@@ -1,8 +1,8 @@
-# Appendix A — Staff‑Level AOSP / AAOS Interview Question Bank
+# Appendix A — Staff-Level AOSP / AAOS Interview Question Bank
 
 > *"Interviews don't test what you know. They test how fast you can show what you know, under pressure, in a way that lets the interviewer write 'hire' with confidence. This appendix is the drill ground."*
 
-This appendix is a **curated question bank** with model answers, ordered by Level. Every question is one I have either **been asked**, **asked others**, or **seen in a Staff debrief**. The depth of each model answer reflects the bar at a serious OEM (Volvo, GM, Stellantis, Ford, BMW, Hyundai), Tier‑1 (Bosch, Continental, Aptiv, Harman, LG VS), platform vendor (Qualcomm, NVIDIA, Samsung S.LSI), or platform-level FAANG (Google AOSP / Android Auto / Pixel, Meta Reality Labs, Amazon Devices).
+This appendix is a **curated question bank** with model answers, ordered by Level. Every question is one I have either **been asked**, **asked others**, or **seen in a Staff debrief**. The depth of each model answer reflects the bar at a serious OEM (Volvo, GM, Stellantis, Ford, BMW, Hyundai), Tier-1 (Bosch, Continental, Aptiv, Harman, LG VS), platform vendor (Qualcomm, NVIDIA, Samsung S.LSI), or platform-level FAANG (Google AOSP / Android Auto / Pixel, Meta Reality Labs, Amazon Devices).
 
 Use it three ways:
 

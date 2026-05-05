@@ -186,4 +186,3 @@ Legend: 🟢 Foundations · 🔵 Build/Framework · 🟣 HAL/Native · 🟠 BSP 
 >
 > **How to use:** One row = one day = ~3–5 hours of focused work (1h theory, 2–4h hands-on). Skip nothing in **bold**; they are gating capstones. Every day links to (a) the chapter section, (b) the lab folder, and (c) the deliverable you should be able to demo.
 
-

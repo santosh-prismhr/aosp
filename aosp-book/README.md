@@ -20,7 +20,7 @@
 
 ## Start here
 
-| If you are… | Start with | Then |
+| If you are... | Start with | Then |
 |---|---|---|
 | **Brand new to AOSP** | [Appx G — Tooling](./appendix-g-tooling-and-devcontainer.md) → [L0 Foundations](./level-00-foundations.md) | Follow [Appx F Days 1–25](./appendix-f-curriculum-100-day.md) in order |
 | **Junior — already build AOSP** | [L1 AOSP Basics](./level-01-aosp-basics.md) → [L2 Framework Internals](./level-02-framework-internals.md) | Days 15–40 |

@@ -230,7 +230,7 @@ Buffer states: FREE → DEQUEUED → QUEUED → ACQUIRED → FREE.
 
 Default queue depth: **3 buffers** (triple buffering). This allows:
 - Buffer 0: being displayed
-- Buffer 1: being composited by SF  
+- Buffer 1: being composited by SF
 - Buffer 2: being rendered by app
 
 ### 2A.2.5 HWC (Hardware Composer) HAL

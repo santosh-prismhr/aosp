@@ -30,7 +30,7 @@ Pass requirements for shipping:
 | Android TV | CTS + GTS + TV-specific |
 | Wear OS | CTS + GTS + Wear-specific |
 
-🎯 **Staff‑Level Insight:** "We pass CTS" is not the same as "we are compatible." CTS samples behavior; field bugs live in the un-sampled space. Treat CTS as the **floor**, not the **ceiling**.
+🎯 **Staff-Level Insight:** "We pass CTS" is not the same as "we are compatible." CTS samples behavior; field bugs live in the un-sampled space. Treat CTS as the **floor**, not the **ceiling**.
 
 ---
 
@@ -99,7 +99,7 @@ Note the **CDD reference**. Every CTS test maps to a clause in the **Compatibili
 
 ### 8.2.4 Writing a Custom CTS-style Test
 
-🛠️ **Hands‑On — host-side test for a vendor service:**
+🛠️ **Hands-On — host-side test for a vendor service:**
 
 ```java
 // cts/hostsidetests/myvendor/src/com/foo/cts/MyVendorTest.java
@@ -205,7 +205,7 @@ Some compatibility requirements cannot be automated: camera physical orientation
 ```bash
 adb install android-cts-verifier/CtsVerifier.apk
 adb shell am start -n com.android.cts.verifier/.TestListActivity
-# … run through ~80 tests, export report …
+# ... run through ~80 tests, export report ...
 adb pull /sdcard/verifierReports
 ```
 
@@ -252,7 +252,7 @@ Cuttlefish is the **canonical** CTS execution environment for AOSP development b
 - Identical kernel/userspace to a real device per arch.
 - CI-friendly (no physical device, no flake from cables).
 
-🛠️ **Hands‑On — running CTS on 4 parallel Cuttlefish instances:**
+🛠️ **Hands-On — running CTS on 4 parallel Cuttlefish instances:**
 
 ```bash
 # Launch 4 instances
@@ -357,7 +357,7 @@ Product Test Plan
 └── Field-quality / Beta program
 ```
 
-🎯 **Staff‑Level Insight:** Any test that does not run on **every CL** in CI rots. Pick a small, fast **smoke** subset (15 min) that runs on every change; full CTS nightly; full product plan weekly. Velocity dies the day developers can't see test results in their CL.
+🎯 **Staff-Level Insight:** Any test that does not run on **every CL** in CI rots. Pick a small, fast **smoke** subset (15 min) that runs on every change; full CTS nightly; full product plan weekly. Velocity dies the day developers can't see test results in their CL.
 
 ---
 

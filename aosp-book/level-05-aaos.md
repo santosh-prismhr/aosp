@@ -25,7 +25,7 @@
 
 ```
 ┌────────────────────────────────────────────────────────┐
-│  Car Apps (CarUi, Car Launcher, Media, Dialer, …)      │
+│  Car Apps (CarUi, Car Launcher, Media, Dialer, ...)      │
 ├────────────────────────────────────────────────────────┤
 │  Car API (android.car.* — system signature)            │
 ├────────────────────────────────────────────────────────┤
@@ -104,7 +104,7 @@ android.hardware.automotive.vehicle@V3-default-service.rc
 
 ### 5.2.4 Adding a Custom Vehicle Property
 
-🛠️ **Hands‑On (Cuttlefish):** Add a custom OEM property `OEM_DRIVER_FATIGUE_LEVEL`.
+🛠️ **Hands-On (Cuttlefish):** Add a custom OEM property `OEM_DRIVER_FATIGUE_LEVEL`.
 
 #### Step 1 — Define the Property ID
 
@@ -211,7 +211,7 @@ adb shell cmd car_service start-user-in-background-on-display 11 1
 
 Source: `packages/services/Car/service/src/com/android/car/user/CarUserService.java`.
 
-🎯 **Staff‑Level Insight:** MUMD changes deep assumptions across the framework. ActivityManager, WindowManager, and InputManager all needed per-display + per-user awareness. If you're modifying any of these for AAOS, read `frameworks/base/services/core/java/com/android/server/wm/RootWindowContainer.java` and `DisplayContent.java` carefully.
+🎯 **Staff-Level Insight:** MUMD changes deep assumptions across the framework. ActivityManager, WindowManager, and InputManager all needed per-display + per-user awareness. If you're modifying any of these for AAOS, read `frameworks/base/services/core/java/com/android/server/wm/RootWindowContainer.java` and `DisplayContent.java` carefully.
 
 ---
 
@@ -257,7 +257,7 @@ Source: `packages/services/Car/service/src/com/android/car/power/CarPowerManagem
 
 VHAL property `AP_POWER_STATE_REQ` and `AP_POWER_STATE_REPORT` orchestrate hand-off with the vehicle MCU. Garage Mode (background updates while parked) is a sub-state of ON.
 
-🐞 **Common Production Bug:** Vehicle wakes Android with `AP_POWER_STATE_REQ = ON` but app processes from previous user weren’t cleanly suspended; ART hits `failed to lock JIT` race. Fix: ensure your app obeys the `onPrepareShutdown` callback path.
+🐞 **Common Production Bug:** Vehicle wakes Android with `AP_POWER_STATE_REQ = ON` but app processes from previous user weren't cleanly suspended; ART hits `failed to lock JIT` race. Fix: ensure your app obeys the `onPrepareShutdown` callback path.
 
 ---
 
@@ -276,7 +276,7 @@ launch_cvd --num_instances=1 \
 
 You get an IVI display + a cluster display. SystemUI Auto, CarLauncher, and the default VHAL run.
 
-🛠️ **Hands‑On — Inject a vehicle event:**
+🛠️ **Hands-On — Inject a vehicle event:**
 ```bash
 adb shell cmd car_service inject-vhal-event 287310600 50  # PERF_VEHICLE_SPEED = 50
 adb logcat -s CarUxR
@@ -305,7 +305,7 @@ adb shell dumpsys car_service --services CarAudioService
 adb logcat -s CarPowerManagementService
 ```
 
-🎯 **Staff‑Level Insight:** Most "phantom" Car bugs are property timing bugs. The bus delivers a property *late*, the framework caches the stale value, the UI shows the wrong gear. Always correlate `timestamp` from VHAL with framework consumption time. The `dumpsys car_service --services CarPropertyService` ring buffer is the diagnostic tool.
+🎯 **Staff-Level Insight:** Most "phantom" Car bugs are property timing bugs. The bus delivers a property *late*, the framework caches the stale value, the UI shows the wrong gear. Always correlate `timestamp` from VHAL with framework consumption time. The `dumpsys car_service --services CarPropertyService` ring buffer is the diagnostic tool.
 
 ---
 

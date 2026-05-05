@@ -173,7 +173,6 @@ aosp-book/
 The existing 21-file handbook is restructured into a single source of truth that simultaneously serves: (a) a **100-day basic→advanced curriculum**, (b) **staff-level interview prep**, and (c) a **daily developer cheat-sheet**. Most existing levels remain as the spine; we add new deep-dives, expand thin areas, introduce a `curriculum/` 100-day track, and standardize every chapter on a fixed **6-block style** ("Why it matters / Concept / Code Lab / Pitfalls / Interview Qs / Cheat-sheet").
 
 > **Primary Android target:** Android 15 (`android-15.0.0_r*`), with Android 14 LTS callouts and Android 16 deltas.
-> **Owner:** Principal AOSP Architect track.  
-> **Status:** Approved. This document drives every subsequent edit to the book.  
-
+> **Owner:** Principal AOSP Architect track.
+> **Status:** Approved. This document drives every subsequent edit to the book.
 

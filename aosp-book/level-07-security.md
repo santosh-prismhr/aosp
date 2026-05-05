@@ -22,7 +22,7 @@ This Level teaches the Android security model from the silicon up: **Verified Bo
 
 Every layer **measures and verifies** the next, and **constrains** what runs on top. Compromise at layer N gives the attacker layer N+1's privilege — never more, if the model holds.
 
-🎯 **Staff‑Level Insight:** When asked "is X secure?" the answer is always **"against what threat model?"** A debugger attached over USB defeats most defenses; a remote attacker over Wi-Fi has a very different reach. State the threat model before the mitigation.
+🎯 **Staff-Level Insight:** When asked "is X secure?" the answer is always **"against what threat model?"** A debugger attached over USB defeats most defenses; a remote attacker over Wi-Fi has a very different reach. State the threat model before the mitigation.
 
 ---
 
@@ -71,7 +71,7 @@ The state is bound to attestation: a YELLOW/ORANGE device cannot pass **hardware
 
 ### 7.2.4 Rolling Your Own Keys (Cuttlefish)
 
-🛠️ **Hands‑On:**
+🛠️ **Hands-On:**
 
 ```bash
 # Generate a 4096-bit RSA AVB key
@@ -168,7 +168,7 @@ neverallow myhal { proc -proc_thermal }:file no_rw_file_perms;
 
 ### 7.3.5 Reading and Writing a Real Policy
 
-🛠️ **Hands‑On — give a vendor service access to a sysfs node:**
+🛠️ **Hands-On — give a vendor service access to a sysfs node:**
 
 ```text
 # device/google/cuttlefish/sepolicy/vendor/mythermal.te
@@ -229,7 +229,7 @@ adb logcat -b all -d | audit2allow -p out/target/product/.../root/sepolicy
 
 Vendor policy is versioned (`PLATFORM_SEPOLICY_VERSION`). System policy can be **newer** than vendor policy by up to 5 years (Project Treble). The `prebuilts/api/<ver>` directory freezes prior policy so a new platform doesn't break old vendor images.
 
-🎯 **Staff‑Level Insight:** When you add a new type used at the system/vendor boundary, it must go in `public/`, not `private/`. Otherwise old vendor images cannot reference it and Treble breaks.
+🎯 **Staff-Level Insight:** When you add a new type used at the system/vendor boundary, it must go in `public/`, not `private/`. Otherwise old vendor images cannot reference it and Treble breaks.
 
 ---
 
@@ -332,7 +332,7 @@ val chain = ks.getCertificateChain("k")  // X.509 chain rooted in Google attesta
 
 The chain proves to a remote server: *this key lives in genuine Google-attested KeyMint, on a device with verified-boot state X, OS patch level Y, locked/unlocked Z*. This is the foundation of Play Integrity, banking app integrity, and FIDO2.
 
-🎯 **Staff‑Level Insight:** The attestation root is the only thing that distinguishes a genuine Pixel from a userdebug emulator that *says* it is one. Protect the device's **attestation key provisioning** with the same care as the AVB root key.
+🎯 **Staff-Level Insight:** The attestation root is the only thing that distinguishes a genuine Pixel from a userdebug emulator that *says* it is one. Protect the device's **attestation key provisioning** with the same care as the AVB root key.
 
 ---
 
@@ -398,7 +398,7 @@ You will be asked. The answer is: **no shared secret, no static credential, no `
 
 1. Capture the exploit (kernel panic logs, EL2 traces if available).
 2. Identify the driver — usually a vendor display/camera/modem ko with an `ioctl` taking a userspace pointer without `copy_from_user` bounds check.
-3. Hotfix: tighten SELinux to deny the offending `ioctl` (`allow … chr_file ioctl` with `ioctlcmd` filter).
+3. Hotfix: tighten SELinux to deny the offending `ioctl` (`allow ... chr_file ioctl` with `ioctlcmd` filter).
 4. Permanent fix: kernel patch + Mainline-style update if driver is in an updatable module; otherwise OTA.
 5. Burn the rollback fuse so old vulnerable images cannot re-flash.
 

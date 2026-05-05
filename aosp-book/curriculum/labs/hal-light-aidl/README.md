@@ -323,4 +323,3 @@ hal-light-aidl/
 
 End-to-end AIDL HAL: a custom `ILights`-style interface, a vendor service implementation, init.rc, sepolicy, VINTF fragment, framework consumer SystemService, and a slider app. **Day 43–46 + 55 capstone** of the [100-day curriculum](../../appendix-f-curriculum-100-day.md).
 
-

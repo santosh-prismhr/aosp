@@ -231,4 +231,3 @@ ART is not "the JVM with a different name." It is a runtime co-designed with the
 > **Primary target:** Android 15 on Cuttlefish · **Audience:** Senior → Staff
 > **Curriculum days:** 37–39 · **Prereq:** [L2 Framework Internals](./level-02-framework-internals.md), [L2A Binder Native](./level-02a-deep-dive-binder-native.md)
 
-

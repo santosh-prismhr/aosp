@@ -49,7 +49,7 @@ By the end of this Level you will have:
 | `vendor_boot_a/b` | SoC/OEM | vendor ramdisk | OTA |
 | `system_a/b` | Google | framework | OTA / Mainline (APEX) |
 | `system_ext_a/b` | OEM | system extensions | OTA |
-| `product_a/b` | OEM | product‑specific apps/configs | OTA |
+| `product_a/b` | OEM | product-specific apps/configs | OTA |
 | `vendor_a/b` | SoC/OEM | HALs, vendor libs | OTA |
 | `odm_a/b` | ODM | ODM customizations | OTA |
 | `vbmeta_a/b` | Google/OEM | AVB metadata | OTA |
@@ -57,7 +57,7 @@ By the end of this Level you will have:
 | `metadata` | — | encryption metadata | persistent |
 | `misc` | — | bootloader messages | persistent |
 
-🔗 Deep dive: **Level 4 — BSP & Device Bring‑Up**, **Level 9 — Production & Release**.
+🔗 Deep dive: **Level 4 — BSP & Device Bring-Up**, **Level 9 — Production & Release**.
 
 ---
 
@@ -100,7 +100,7 @@ aosp/
 ├── packages/
 │   ├── apps/                  # System apps (Settings, Launcher3, etc.)
 │   ├── modules/               # Mainline modules (APEX)
-│   ├── providers/             # Content providers (MediaProvider, …)
+│   ├── providers/             # Content providers (MediaProvider, ...)
 │   └── services/              # Java system services (Telephony, etc.)
 ├── pdk/
 ├── platform_testing/          # Platform tests
@@ -128,7 +128,7 @@ aosp/
 └── vendor/                    # OEM/SoC closed code (in OEM trees)
 ```
 
-🎯 **Staff‑Level Insight:** Knowing *which directory owns a class of bugs* is half the job:
+🎯 **Staff-Level Insight:** Knowing *which directory owns a class of bugs* is half the job:
 
 | Symptom | First place to look |
 |---------|--------------------|
@@ -174,7 +174,7 @@ aosp/
 
 ### 1.3.4 Initial Sync (Cuttlefish target)
 
-🛠️ **Hands‑On:**
+🛠️ **Hands-On:**
 
 ```bash
 # 1. Install repo
@@ -296,7 +296,7 @@ out/
     └── symbols/                # unstripped binaries (for debugging!)
 ```
 
-🎯 **Staff‑Level Insight:** `out/target/product/<device>/symbols/` is gold for crash debugging. Always keep these when triaging tombstones — the addresses in a tombstone match the symbols here.
+🎯 **Staff-Level Insight:** `out/target/product/<device>/symbols/` is gold for crash debugging. Always keep these when triaging tombstones — the addresses in a tombstone match the symbols here.
 
 ---
 
@@ -306,7 +306,7 @@ out/
 
 - Officially supported by Google.
 - Runs on a normal x86_64 Linux host (KVM).
-- Boots a real Android image (no emulator‑specific shortcuts).
+- Boots a real Android image (no emulator-specific shortcuts).
 - Used internally at Google for CTS, framework dev, and crashes can be triaged like real devices.
 - Supports phone, auto, foldable, wear, tablet form factors.
 
@@ -328,7 +328,7 @@ sudo apt install -y git-core gnupg flex bison build-essential zip curl \
 
 ### 1.5.3 The Build
 
-🛠️ **Hands‑On — Your First Build:**
+🛠️ **Hands-On — Your First Build:**
 
 ```bash
 cd ~/aosp
@@ -350,7 +350,7 @@ ccache -M 100G
 
 Add these to `~/.bashrc`. A second clean build will drop to ~25% of the original time.
 
-### 1.5.5 Common First‑Build Failures
+### 1.5.5 Common First-Build Failures
 
 | Error | Cause | Fix |
 |-------|-------|-----|
@@ -405,7 +405,7 @@ launch_cvd --report_anonymous_usage_stats=N
 
 ### 1.6.4 Flashing a Real Device (preview)
 
-🔗 Real device flashing is covered in **Level 4 — BSP & Device Bring‑Up**. The two-line teaser:
+🔗 Real device flashing is covered in **Level 4 — BSP & Device Bring-Up**. The two-line teaser:
 
 ```bash
 adb reboot bootloader
@@ -452,7 +452,7 @@ adb shell stop && adb shell start   # zygote restart
 | `kernel` | dmesg (via `-b kernel`) |
 | `all` | Everything |
 
-🎯 **Staff‑Level Insight:** Always capture `adb bugreport` before a device reboots after a crash. It bundles logcat (all buffers), dumpsys, dmesg, ANRs, tombstones, traces, and battery stats. It is the single most powerful artifact for cross-team triage.
+🎯 **Staff-Level Insight:** Always capture `adb bugreport` before a device reboots after a crash. It bundles logcat (all buffers), dumpsys, dmesg, ANRs, tombstones, traces, and battery stats. It is the single most powerful artifact for cross-team triage.
 
 ---
 
@@ -506,7 +506,7 @@ touch -d "1 hour ago" $(find . -name 'Android.bp' -newer out/soong/build.ninja)
 
 ## Chapter 1.9 — Your First Code Change
 
-🛠️ **Hands‑On:** Change the boot animation log message.
+🛠️ **Hands-On:** Change the boot animation log message.
 
 ```bash
 cd ~/aosp/frameworks/base

@@ -1,4 +1,4 @@
-# Level 0 — Foundations (Pre‑AOSP)
+# Level 0 — Foundations (Pre-AOSP)
 
 > *"You cannot debug Android until you can debug Linux. Android is not a Linux distribution — it is a userspace built on the Linux kernel with radically different conventions."*
 
@@ -16,7 +16,7 @@ Android is:
 2. **A bionic-based userspace** (not glibc).
 3. **A custom init system** (`/system/bin/init`, not systemd, not SysV).
 4. **A managed runtime** (ART) running on top of native services.
-5. **A specific security model** built on SELinux in *enforcing* mode by default, plus a per‑app UID sandbox.
+5. **A specific security model** built on SELinux in *enforcing* mode by default, plus a per-app UID sandbox.
 6. **A Hardware Abstraction Layer (HAL)** decoupled from the framework via Binder (HIDL/AIDL).
 
 ### 0.1.2 What Android Is **Not**
@@ -33,7 +33,7 @@ Android is:
 ├──────────────────────────────────────────────────────────┤
 │       Java Framework (android.*)  — system_server        │
 ├──────────────────────────────────────────────────────────┤
-│   Native Services (surfaceflinger, audioserver, …)       │
+│   Native Services (surfaceflinger, audioserver, ...)       │
 ├──────────────────────────────────────────────────────────┤
 │   HAL (AIDL/HIDL)  ↔   Vendor Processes                  │
 ├──────────────────────────────────────────────────────────┤
@@ -43,7 +43,7 @@ Android is:
 └──────────────────────────────────────────────────────────┘
 ```
 
-🎯 **Staff‑Level Insight:** The horizontal lines above are not just diagrams — they are **ABI contracts**. Project Treble (Android 8+) made the line between "framework" and "HAL/vendor" a hard, versioned interface (VINTF). Crossing it incorrectly is the #1 cause of OEM merge pain.
+🎯 **Staff-Level Insight:** The horizontal lines above are not just diagrams — they are **ABI contracts**. Project Treble (Android 8+) made the line between "framework" and "HAL/vendor" a hard, versioned interface (VINTF). Crossing it incorrectly is the #1 cause of OEM merge pain.
 
 ---
 
@@ -53,7 +53,7 @@ Android is:
 
 ### 0.2.1 Why Android Has Its Own init
 
-Traditional `systemd`/SysV‑init do not work because:
+Traditional `systemd`/SysV-init do not work because:
 
 - Android needs **deterministic boot ordering** for tens of native services with fast startup (<5s on phones).
 - Android requires **SELinux labeling at process creation time**.
@@ -90,7 +90,7 @@ Key constructs:
 - `service` — defines a process.
 - `class` — startup class (`core`, `main`, `late_start`, `hal`).
 - `on <trigger>` — action block. Triggers: `early-init`, `init`, `late-init`, `boot`, `property:foo=bar`, `post-fs-data`.
-- `setprop`, `start`, `stop`, `restart`, `chmod`, `chown`, `mkdir`, `mount`, `write` are built‑in commands.
+- `setprop`, `start`, `stop`, `restart`, `chmod`, `chown`, `mkdir`, `mount`, `write` are built-in commands.
 
 ### 0.2.3 The Boot Phase Order
 
@@ -99,7 +99,7 @@ Key constructs:
 3. `late-init` (typically triggers everything else via `trigger early-fs`, `trigger fs`, `trigger post-fs`, `trigger post-fs-data`, `trigger zygote-start`, `trigger boot`)
 4. `boot`
 
-🐞 **Common Production Bug:** A vendor HAL is started in `class core` instead of `class hal`. On a slow boot path (cold flash, first boot), the HAL races SELinux relabeling on `/data`, and the service crash‑loops. Fix: use `class hal` and add appropriate `on property:sys.boot_completed=1` gating for non‑critical work.
+🐞 **Common Production Bug:** A vendor HAL is started in `class core` instead of `class hal`. On a slow boot path (cold flash, first boot), the HAL races SELinux relabeling on `/data`, and the service crash-loops. Fix: use `class hal` and add appropriate `on property:sys.boot_completed=1` gating for non-critical work.
 
 ### 0.2.4 Reading `init` Logs
 
@@ -109,7 +109,7 @@ adb logcat -b all -d | grep -E "init|SELinux"
 adb shell cat /proc/1/status   # PID 1 = init
 ```
 
-🛠️ **Hands‑On (Cuttlefish):**
+🛠️ **Hands-On (Cuttlefish):**
 
 ```bash
 # After booting Cuttlefish (see Level 1)
@@ -122,17 +122,17 @@ adb shell setprop ctl.restart surfaceflinger  # ask init to restart it
 
 ## Chapter 0.3 — The Property System
 
-The property system is Android’s **global, typed, access‑controlled key‑value store**, accessible from C, C++, Java, and shell. Source: `system/core/init/property_service.cpp`, `bionic/libc/bionic/system_properties/`.
+The property system is Android's **global, typed, access-controlled key-value store**, accessible from C, C++, Java, and shell. Source: `system/core/init/property_service.cpp`, `bionic/libc/bionic/system_properties/`.
 
 ### 0.3.1 Mental Model
 
 - A **shared memory area** (`/dev/__properties__/`) mapped read-only into every process.
 - Only `init` (via the `property_service` socket `/dev/socket/property_service`) can write.
-- Property names are dot‑separated and **namespaced**: `ro.`, `persist.`, `sys.`, `vendor.`, `ctl.`, `dalvik.`, `debug.`.
+- Property names are dot-separated and **namespaced**: `ro.`, `persist.`, `sys.`, `vendor.`, `ctl.`, `dalvik.`, `debug.`.
 
 | Prefix | Meaning |
 |--------|---------|
-| `ro.` | Read‑only after first set. Used for build constants. |
+| `ro.` | Read-only after first set. Used for build constants. |
 | `persist.` | Persisted to `/data/property/` across reboots. |
 | `sys.` | System runtime, framework writable. |
 | `vendor.` | Vendor partition properties. |
@@ -174,7 +174,7 @@ android.os.SystemProperties.set("persist.example.flag", "1"); // hidden API
 
 Shell: `getprop`, `setprop`, `watchprops`.
 
-🎯 **Staff‑Level Insight:** Avoid `persist.` properties for high‑frequency writes — they hit `/data/property/` synchronously. Use `DeviceConfig` or app `SharedPreferences` instead. A common foot‑gun is using `persist.` for telemetry counters and burning UFS write cycles.
+🎯 **Staff-Level Insight:** Avoid `persist.` properties for high-frequency writes — they hit `/data/property/` synchronously. Use `DeviceConfig` or app `SharedPreferences` instead. A common foot-gun is using `persist.` for telemetry counters and burning UFS write cycles.
 
 ---
 
@@ -185,11 +185,11 @@ Android's app sandbox is built on standard Linux primitives:
 | Primitive | Used For |
 |-----------|----------|
 | **UID per app** | Filesystem isolation (`/data/data/<pkg>` is owned by the app's UID) |
-| **`mount` namespaces** | Per‑app storage views (`/storage/emulated/0`), Bionic linker namespaces |
+| **`mount` namespaces** | Per-app storage views (`/storage/emulated/0`), Bionic linker namespaces |
 | **`pid` namespace** | Not heavily used; framework relies on UID |
-| **`net` namespace** | VPN apps, tethering offload, per‑app firewalling (Android 10+ `INetd`) |
+| **`net` namespace** | VPN apps, tethering offload, per-app firewalling (Android 10+ `INetd`) |
 | **cgroups v1 + v2** | CPU scheduling (`task_profiles`), freezer (cached app freezer Android 12+), memcg |
-| **seccomp‑bpf** | Per‑process syscall filters (zygote applies) |
+| **seccomp-bpf** | Per-process syscall filters (zygote applies) |
 | **Capabilities** | Drop CAP_SYS_ADMIN etc. on most services |
 
 ### 0.4.1 Linker Namespaces (bionic)
@@ -207,11 +207,11 @@ namespace.default.links = vndk,art
 namespace.vndk.search.paths = /apex/com.android.vndk.v32/${LIB}
 ```
 
-🐞 **Common Production Bug:** A vendor binary tries to `dlopen("/system/lib64/libfoo.so")` and gets `dlopen failed: library "libfoo.so" not found`. Reason: vendor processes run in the `vendor` linker namespace which cannot see arbitrary `/system/lib`. Fix: either add the lib to LL‑NDK / VNDK or move it into `/vendor/lib64` or an APEX.
+🐞 **Common Production Bug:** A vendor binary tries to `dlopen("/system/lib64/libfoo.so")` and gets `dlopen failed: library "libfoo.so" not found`. Reason: vendor processes run in the `vendor` linker namespace which cannot see arbitrary `/system/lib`. Fix: either add the lib to LL-NDK / VNDK or move it into `/vendor/lib64` or an APEX.
 
 ### 0.4.2 cgroups & `task_profiles`
 
-Defined in `system/core/libprocessgroup/profiles/task_profiles.json`. The framework moves apps between `top‑app`, `foreground`, `background`, `system‑background` cgroups based on lifecycle. The **freezer** (cgroup v2) suspends cached apps to save battery.
+Defined in `system/core/libprocessgroup/profiles/task_profiles.json`. The framework moves apps between `top-app`, `foreground`, `background`, `system-background` cgroups based on lifecycle. The **freezer** (cgroup v2) suspends cached apps to save battery.
 
 🔗 See **Level 6 — Performance & Memory** for deep dives on LMKD, freezer, and PSI.
 
@@ -234,7 +234,7 @@ DAC (Unix permissions) cannot stop a compromised root process. **MAC** (Mandator
 - **Class** — type of object (`file`, `dir`, `chr_file`, `binder`, `property_service`, `service_manager`).
 - **Permission** — verb (`read`, `write`, `ioctl`, `find`, `add`, `call`).
 - **Allow rule** — `allow <domain> <type>:<class> { perms };`
-- **Neverallow** — compile‑time assertion; CTS enforces these.
+- **Neverallow** — compile-time assertion; CTS enforces these.
 
 ### 0.5.3 Reading a Denial
 
@@ -252,11 +252,11 @@ Decode:
 ### 0.5.4 The `audit2allow` Trap
 
 `audit2allow` generates rules from denials. **Never paste its output blindly into policy.** It will:
-- Allow over‑broad permissions.
+- Allow over-broad permissions.
 - Hide real bugs (a denial often indicates a *misconfigured file*, not a missing rule).
 - Trigger neverallow violations.
 
-🎯 **Staff‑Level Insight:** Treat every denial as a design question: *"Should this domain access this object at all? Or should I relabel, refactor, or move data?"*
+🎯 **Staff-Level Insight:** Treat every denial as a design question: *"Should this domain access this object at all? Or should I relabel, refactor, or move data?"*
 
 ---
 
@@ -273,7 +273,7 @@ If you come from Yocto/Buildroot/OpenEmbedded:
 | Update | rootfs swap, RAUC, swupdate | A/B + dm-verity + AVB |
 | HAL | direct `/dev` access from app | HAL process behind Binder |
 | Apps | native binaries | APK + ART + Zygote |
-| Filesystem | single rootfs (often) | Partitioned (system/vendor/data/…) |
+| Filesystem | single rootfs (often) | Partitioned (system/vendor/data/...) |
 | Build | bitbake / make | Soong (`Android.bp`) + Make legacy |
 | Versioning | per-package | per-image, per-partition (VINTF) |
 
@@ -300,7 +300,7 @@ You will use:
 
 Before moving to Level 1, you should be able to answer:
 
-1. *Why does Android run its own init instead of systemd?* (deterministic, SELinux‑aware, property triggers, early init)
+1. *Why does Android run its own init instead of systemd?* (deterministic, SELinux-aware, property triggers, early init)
 2. *What is the difference between `ro.`, `persist.`, and `sys.` properties?*
 3. *What is a linker namespace and why does it matter for vendor code?*
 4. *Read this denial and tell me what to fix:* (use 0.5.3 example)

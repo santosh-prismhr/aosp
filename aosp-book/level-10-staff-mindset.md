@@ -82,7 +82,7 @@ Accepted, 2026-04-12. Owner: santosh.
 
 Store ADRs in-repo, version-controlled, alongside the code. When a new engineer asks "why is it like this?", point them at the ADR. When the answer is "we don't know," that is itself a finding — propose an ADR retroactively.
 
-🎯 **Staff‑Level Insight:** Code rots; ADRs persist. The engineer who maintains the *why* is more valuable than the engineer who wrote the *what*.
+🎯 **Staff-Level Insight:** Code rots; ADRs persist. The engineer who maintains the *why* is more valuable than the engineer who wrote the *what*.
 
 ---
 
@@ -160,7 +160,7 @@ Best: *"This will deadlock under condition X. Two options: (a) move to handler t
 | Regression in critical path | Optional perf micro-tuning |
 | Security violation | Doc nits |
 
-🎯 **Staff‑Level Insight:** Block rarely, with explanation, on things that are expensive to fix later. Comment generously. Conflate the two and you become a bottleneck or a rubber stamp — both fail the team.
+🎯 **Staff-Level Insight:** Block rarely, with explanation, on things that are expensive to fix later. Comment generously. Conflate the two and you become a bottleneck or a rubber stamp — both fail the team.
 
 ---
 
@@ -234,7 +234,7 @@ Let go of:
 3. **Local optimizations** in non-hot code paths.
 4. **Architecture choices in domains you don't own** — coach the owner, do not seize the wheel.
 
-🎯 **Staff‑Level Insight:** Authority comes from being right *and* being seen to be right. Burn capital on the irreversible; conserve it elsewhere.
+🎯 **Staff-Level Insight:** Authority comes from being right *and* being seen to be right. Burn capital on the irreversible; conserve it elsewhere.
 
 ---
 
@@ -403,7 +403,7 @@ These are full walkthroughs at the depth a Staff candidate is expected to delive
 
 ```
    App / SystemUI                 (caller, any UID)
-        │ Manager API (ScreenshotManager.captureDisplay(displayId, …))
+        │ Manager API (ScreenshotManager.captureDisplay(displayId, ...))
         ▼
    system_server: ScreenshotService (new)        ◄── policy + permissions
         │ AIDL one-way request

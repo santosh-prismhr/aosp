@@ -133,7 +133,7 @@ sequenceDiagram
 
 ## 7. Voice & Tone
 
-- Second person (**"you'll see…"**), present tense.
+- Second person (**"you'll see..."**), present tense.
 - Direct and dense; no marketing language.
 - Define jargon on first use, then use freely.
 - Numbers over adjectives: "≈18 ms cold-start cost", not "expensive".

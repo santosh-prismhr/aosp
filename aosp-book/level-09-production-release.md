@@ -84,7 +84,7 @@ A product is defined by its **manifest**, not by its tree. Lock down per-release
 </manifest>
 ```
 
-🎯 **Staff‑Level Insight:** A manifest with floating branches (`revision="main"`) is a time bomb. **Always pin to SHAs or release tags for MP**. Otherwise re-building the exact MP image one year later — for forensic analysis or court — is impossible.
+🎯 **Staff-Level Insight:** A manifest with floating branches (`revision="main"`) is a time bomb. **Always pin to SHAs or release tags for MP**. Otherwise re-building the exact MP image one year later — for forensic analysis or court — is impossible.
 
 ### 9.2.3 Merging a New AOSP Release
 
@@ -150,7 +150,7 @@ A *truly* reproducible build means: same source SHA + same toolchain + same buil
 - Network access during build pulling unpinned dependencies (banned).
 - Soong randomizes some orderings — pin via `BUILD_NUMBER`, `BUILD_DATETIME`.
 
-🎯 **Staff‑Level Insight:** Reproducibility is not pedantry. When a regulator (FDA, NHTSA, EU CRA) asks you to prove that the binary on the recalled device matches the source you'll publish, the only acceptable answer is a reproducible build receipt. Set this up at T-15m, not T-3m.
+🎯 **Staff-Level Insight:** Reproducibility is not pedantry. When a regulator (FDA, NHTSA, EU CRA) asks you to prove that the binary on the recalled device matches the source you'll publish, the only acceptable answer is a reproducible build receipt. Set this up at T-15m, not T-3m.
 
 ---
 
@@ -188,7 +188,7 @@ img_from_target_files  ──►  factory image (.img)
 ota_from_target_files  ──►  full + incremental OTAs
 ```
 
-🛠️ **Hands‑On — signing on Cuttlefish (test keys, not for production):**
+🛠️ **Hands-On — signing on Cuttlefish (test keys, not for production):**
 
 ```bash
 out/host/linux-x86/bin/sign_target_files_apks \
@@ -325,7 +325,7 @@ development/scripts/stack tombstone_00 \
 
 A symbolized stack on a stripped production image requires the **symbols directory** from the build that produced the image. Archive `out/target/product/.../symbols/` for **every released build**, indexed by `ro.build.fingerprint`.
 
-🎯 **Staff‑Level Insight:** No symbols = no field debug. Disk is cheap. Keep symbols, kernel `vmlinux`, all `.so` debug info, and the exact toolchain version, for **at least the support window of the product** (5-10 years for automotive).
+🎯 **Staff-Level Insight:** No symbols = no field debug. Disk is cheap. Keep symbols, kernel `vmlinux`, all `.so` debug info, and the exact toolchain version, for **at least the support window of the product** (5-10 years for automotive).
 
 ### 9.6.3 statsd and Atoms
 
@@ -392,7 +392,7 @@ For an automotive program shipping a 2026 model, support obligations may run to 
 - Source archival — every shipped image's source tree (or its manifest + git mirror) must be re-creatable.
 - Personnel — the engineers who shipped it will leave. Document **runbooks**: how to build, sign, OTA, debug. Treat the runbook as a deliverable equal to code.
 
-🎯 **Staff‑Level Insight:** The defining trait of a Staff release engineer is paranoia about year 5, not year 0. Anyone can ship once. Shipping a maintainable platform is rare and valuable.
+🎯 **Staff-Level Insight:** The defining trait of a Staff release engineer is paranoia about year 5, not year 0. Anyone can ship once. Shipping a maintainable platform is rare and valuable.
 
 ---
 

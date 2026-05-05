@@ -22,7 +22,7 @@ EvsManager (native service, started by init very early)
       │     Opens camera device directly (V4L2 / vendor driver)
       │     Returns frame buffers (DMA-BUF / GraphicBuffer)
       │
-      ├──► IEvsDisplay HAL (AIDL)  
+      ├──► IEvsDisplay HAL (AIDL)
       │     Renders directly to a hardware overlay plane
       │     Bypasses SurfaceFlinger entirely
       │
@@ -305,7 +305,7 @@ class SomeIpVehicleHardware : public IVehicleHardware {
         // Register SOME/IP event subscription for this property
         someipClient.subscribe(propId_to_service_event_mapping[propId]);
     }
-    
+
     void onSomeIpEvent(ServiceId svc, EventId evt, Payload data) {
         // Convert SOME/IP payload to VehiclePropValue
         VehiclePropValue val = convertToVhalValue(svc, evt, data);
@@ -380,14 +380,14 @@ Android (CarPowerManagementService)          Vehicle MCU
   Enters Garage Mode
   Schedules work (OTA, dexopt, upload)
   ...working...
-                                             
-  AP_POWER_STATE_REPORT = SHUTDOWN_PREPARE   
-    (periodically: "I need more time")       
-                                             
-  ...work complete or budget expired...      
-                                             
-  AP_POWER_STATE_REPORT = DEEP_SLEEP_ENTRY   
-  (or SHUTDOWN_START)                        
+
+  AP_POWER_STATE_REPORT = SHUTDOWN_PREPARE
+    (periodically: "I need more time")
+
+  ...work complete or budget expired...
+
+  AP_POWER_STATE_REPORT = DEEP_SLEEP_ENTRY
+  (or SHUTDOWN_START)
                                              MCU cuts power to AP domain
 ```
 
@@ -483,7 +483,7 @@ CarVoiceInteractionSession
 
 ```
 CtsCarTestCases
-CtsCarHostTestCases  
+CtsCarHostTestCases
 CtsCarBuiltinAppHostTestCases
 CtsCarMediaHostTestCases
 CtsVehicleHalTestCases
@@ -502,7 +502,7 @@ public void testHvacTemperatureSet() {
             .setAreaId(VehicleAreaSeat.ROW_1_LEFT)
             .addFloatValues(22.5f)
             .build());
-    
+
     CarPropertyValue<Float> value = mCarPropertyManager.getProperty(
         VehicleProperty.HVAC_TEMPERATURE_SET, VehicleAreaSeat.ROW_1_LEFT);
     assertEquals(22.5f, value.getValue(), 0.01f);

@@ -1,4 +1,4 @@
-# Level 2 — Framework Internals (Mid‑Level Engineer)
+# Level 2 — Framework Internals (Mid-Level Engineer)
 
 > *"`system_server` is Android. If you cannot trace a request from app → Binder → service → HAL, you cannot ship Android."*
 
@@ -26,14 +26,14 @@ This Level builds the mental model of **what runs**, **in what process**, **talk
     ▼
 [init: trigger early-init → init → late-init → fs → post-fs → post-fs-data → boot]
     │   starts native services (servicemanager, hwservicemanager removed in 14+,
-    │   vold, netd, surfaceflinger, audioserver, mediaserver, …)
+    │   vold, netd, surfaceflinger, audioserver, mediaserver, ...)
     ▼
 [zygote] (app_process forked from init)
     │   preloads classes & resources, opens socket /dev/socket/zygote
     │   forks system_server as the FIRST child
     ▼
 [system_server]
-    │   bootstraps ~100 Java services (AMS, PMS, WMS, PowerMS, …)
+    │   bootstraps ~100 Java services (AMS, PMS, WMS, PowerMS, ...)
     │   publishes them to ServiceManager
     │   sends BOOT_COMPLETED broadcast
     ▼
@@ -77,7 +77,7 @@ on boot
     # set defaults, start late_start services
 ```
 
-🐞 **Common Production Bug:** Vendor adds `start my_hal` under `on boot` instead of `on post-fs-data` and the HAL needs `/data/vendor/...` which isn’t mounted yet. Symptom: `open: ENOENT` in vendor logs only on first boot. Fix: gate on `post-fs-data` or add `disabled` + `start` from a property trigger.
+🐞 **Common Production Bug:** Vendor adds `start my_hal` under `on boot` instead of `on post-fs-data` and the HAL needs `/data/vendor/...` which isn't mounted yet. Symptom: `open: ENOENT` in vendor logs only on first boot. Fix: gate on `post-fs-data` or add `disabled` + `start` from a property trigger.
 
 ### 2.1.3 Zygote: The Process Factory
 
@@ -92,7 +92,7 @@ When you launch an app, AMS asks zygote to fork; the child closes the zygote soc
 
 Source: `frameworks/base/core/java/com/android/internal/os/Zygote*.java`, `frameworks/base/cmds/app_process/`.
 
-🎯 **Staff‑Level Insight:** The "Unspecialized App Process Pool" (USAP, Android 10+) keeps a few pre-forked but un-specialized processes ready, cutting cold-launch latency by ~20–80 ms. If you change zygote preloading, you measurably move SystemServer boot latency. Use `frameworks/base/services/core/java/com/android/server/SystemServer.java`'s timing logs (`BOOT_PROGRESS_*` events) to validate.
+🎯 **Staff-Level Insight:** The "Unspecialized App Process Pool" (USAP, Android 10+) keeps a few pre-forked but un-specialized processes ready, cutting cold-launch latency by ~20–80 ms. If you change zygote preloading, you measurably move SystemServer boot latency. Use `frameworks/base/services/core/java/com/android/server/SystemServer.java`'s timing logs (`BOOT_PROGRESS_*` events) to validate.
 
 ### 2.1.4 SystemServer Boot Timeline
 
@@ -122,8 +122,8 @@ Binder is the heart of Android. **All cross-process calls** go through it.
 - **Reference counting across processes** (death notifications).
 - **Capability passing** — you can hand an object to another process and they get a usable proxy.
 - **Thread pool managed by kernel driver** (`/dev/binder`, `/dev/hwbinder`, `/dev/vndbinder`).
-- **Single‑copy** payloads via `ashmem`/`memfd` for large data.
-- **Parcel** serialization is platform‑internal, fast, and stable‑per‑version.
+- **Single-copy** payloads via `ashmem`/`memfd` for large data.
+- **Parcel** serialization is platform-internal, fast, and stable-per-version.
 
 ### 2.2.2 The Three Domains
 
@@ -209,15 +209,15 @@ binder.linkToDeath(new IBinder.DeathRecipient() {
 }, 0);
 ```
 
-🐞 **Common Production Bug:** `system_server` crash leaves apps with stale binder proxies. Apps that don’t implement `linkToDeath` keep calling `DeadObjectException`. Always re-bind on death for long-lived service references.
+🐞 **Common Production Bug:** `system_server` crash leaves apps with stale binder proxies. Apps that don't implement `linkToDeath` keep calling `DeadObjectException`. Always re-bind on death for long-lived service references.
 
 ### 2.2.7 Performance: Oneway, Buffers, Threads
 
-- **`oneway`** methods do not block the caller; they consume one slot in the server’s 1 MB buffer per process. Saturating the buffer = `TransactionTooLargeException`.
+- **`oneway`** methods do not block the caller; they consume one slot in the server's 1 MB buffer per process. Saturating the buffer = `TransactionTooLargeException`.
 - The default Binder buffer per process is **1 MB minus 8 KB**. A 1 MB Parcel will fail.
-- The default thread pool size is **15** (set by `ProcessState::setThreadPoolMaxThreadCount`). For `system_server` it’s higher.
+- The default thread pool size is **15** (set by `ProcessState::setThreadPoolMaxThreadCount`). For `system_server` it's higher.
 
-🎯 **Staff‑Level Insight:** When you see "Binder transaction failed" or `TransactionTooLargeException`, the fix is rarely "increase the buffer." The real fix is: paginate (cursor-style), use `ParcelFileDescriptor` for large blobs, or stream via shared memory (`HardwareBuffer`, `Ashmem`).
+🎯 **Staff-Level Insight:** When you see "Binder transaction failed" or `TransactionTooLargeException`, the fix is rarely "increase the buffer." The real fix is: paginate (cursor-style), use `ParcelFileDescriptor` for large blobs, or stream via shared memory (`HardwareBuffer`, `Ashmem`).
 
 ### 2.2.8 Tools
 
@@ -287,7 +287,7 @@ Responsibilities:
 
 Key classes: `ActivityManagerService`, `ProcessRecord`, `BroadcastQueue`, `OomAdjuster`.
 
-🛠️ **Hands‑On:**
+🛠️ **Hands-On:**
 ```bash
 adb shell dumpsys activity processes      # all running, oom_adj per process
 adb shell dumpsys activity broadcasts     # broadcast queue state
@@ -322,7 +322,7 @@ Responsibilities:
 - The **window** is the unit of display real-estate (an Activity has one or more windows).
 - Z-order, focus, input routing.
 - Animations (transitions, recents).
-- Display topology (multi-display since Android 10, freeform, picture‑in-picture).
+- Display topology (multi-display since Android 10, freeform, picture-in-picture).
 
 WMS talks to **SurfaceFlinger** (a native service, separate process) over Binder. SurfaceFlinger composes layers using HWC (Hardware Composer HAL) onto the display.
 
@@ -339,7 +339,7 @@ adb shell wm size                # display size
 adb shell wm density             # DPI override
 ```
 
-🎯 **Staff‑Level Insight:** When jank happens, **never start at the app**. Start with `dumpsys SurfaceFlinger --latency <window>` and `perfetto` traces. ~70% of "app jank" reports are GPU contention, HWC fallback to GPU composition, or display VSYNC misconfiguration in the BSP.
+🎯 **Staff-Level Insight:** When jank happens, **never start at the app**. Start with `dumpsys SurfaceFlinger --latency <window>` and `perfetto` traces. ~70% of "app jank" reports are GPU contention, HWC fallback to GPU composition, or display VSYNC misconfiguration in the BSP.
 
 ---
 
@@ -495,7 +495,7 @@ adb shell service call my_echo 1 s16 hello
 
 ## Chapter 2.6 — Framework Modification Best Practices
 
-### 2.6.1 Don’t Fork — Hook
+### 2.6.1 Don't Fork — Hook
 
 If you need vendor behavior, use:
 - **Config overlays** (`device/<vendor>/<product>/overlay/`) for resources.
@@ -526,7 +526,7 @@ Many subsystems are now Mainline modules: ART, Tethering, MediaProvider, Bluetoo
 
 ⚠️ **OEM Pitfall:** Modifying a Mainline module's source breaks the Google-signed APEX. You will lose security updates for that subsystem on field devices. Customize via the documented extension points only (e.g., Bluetooth: `BluetoothInCallService` is overlay-able; the stack itself is not).
 
-🎯 **Staff‑Level Insight:** When asked to "add feature X to Bluetooth," push back: is X really framework, or is it an app on top of `BluetoothAdapter`? Mainline module modifications should be the last resort.
+🎯 **Staff-Level Insight:** When asked to "add feature X to Bluetooth," push back: is X really framework, or is it an app on top of `BluetoothAdapter`? Mainline module modifications should be the last resort.
 
 ---
 

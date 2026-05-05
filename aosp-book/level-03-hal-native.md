@@ -6,7 +6,7 @@
 
 ## Chapter 3.1 — HAL Evolution: Legacy → HIDL → AIDL
 
-### 3.1.1 Legacy HAL (pre‑Android 8)
+### 3.1.1 Legacy HAL (pre-Android 8)
 
 A HAL was a `.so` shared library `libhardware/<module>.so` loaded **in-process** by the framework via `hw_get_module()`. Examples: `audio.primary.<board>.so` loaded into `audioserver`.
 
@@ -40,7 +40,7 @@ Same AIDL you use for Java services, with `stability: "vintf"`. Runs over `/dev/
 | Status | Deprecated | Deprecated | **Current** |
 | Driver | direct | `/dev/hwbinder` | `/dev/binder` |
 
-🎯 **Staff‑Level Insight:** Even on Android 14+, you will encounter HIDL in BSPs from 2020-era SoCs. Knowing both is non-negotiable. Many bring-up bugs are AIDL-shim-over-HIDL translations.
+🎯 **Staff-Level Insight:** Even on Android 14+, you will encounter HIDL in BSPs from 2020-era SoCs. Knowing both is non-negotiable. Many bring-up bugs are AIDL-shim-over-HIDL translations.
 
 ---
 
@@ -91,7 +91,7 @@ cc_library_shared {
 }
 ```
 
-The duplicated build for `vendor_available` exists because vendor and system may use **different VNDK** versions. The vendor copy is built against the **VNDK snapshot** for that vendor’s target API level.
+The duplicated build for `vendor_available` exists because vendor and system may use **different VNDK** versions. The vendor copy is built against the **VNDK snapshot** for that vendor's target API level.
 
 ### 3.2.2 VNDK (Vendor Native Development Kit)
 
@@ -139,7 +139,7 @@ Files live in:
 </manifest>
 ```
 
-`target-level="8"` declares the **FCM (Framework Compatibility Matrix) level** the vendor implements. Each Android release has an FCM level (Android 14 = 8, Android 15 = 9). Vendors can **lag** the framework by N levels — Treble’s whole point.
+`target-level="8"` declares the **FCM (Framework Compatibility Matrix) level** the vendor implements. Each Android release has an FCM level (Android 14 = 8, Android 15 = 9). Vendors can **lag** the framework by N levels — Treble's whole point.
 
 ### 3.3.3 Tools
 
@@ -155,7 +155,7 @@ out/host/linux-x86/bin/checkvintf <files>   # offline check
 
 ## Chapter 3.4 — Writing a Production-Grade AIDL HAL
 
-We will build `android.hardware.example.IFoo` — a vendor HAL that exposes a sensor‑like read.
+We will build `android.hardware.example.IFoo` — a vendor HAL that exposes a sensor-like read.
 
 ### 3.4.1 Layout
 
@@ -370,7 +370,7 @@ adb shell lshal | grep example
 adb shell dumpsys -l | grep example
 ```
 
-🛠️ **Hands‑On — Calling from a client:**
+🛠️ **Hands-On — Calling from a client:**
 ```cpp
 auto svc = IFoo::fromBinder(ndk::SpAIBinder(
     AServiceManager_waitForService("android.hardware.example.IFoo/default")));
@@ -400,7 +400,7 @@ ILights als = ILights.Stub.asInterface(
 als.setLightState(id, state);
 ```
 
-🎯 **Staff‑Level Insight:** Always use `waitForDeclaredService` (returns null if not in VINTF manifest) over `waitForService` (blocks forever) on optional HALs. The latter is the source of countless watchdog timeouts on minimal devices.
+🎯 **Staff-Level Insight:** Always use `waitForDeclaredService` (returns null if not in VINTF manifest) over `waitForService` (blocks forever) on optional HALs. The latter is the source of countless watchdog timeouts on minimal devices.
 
 ---
 
@@ -469,5 +469,5 @@ You should be able to:
 
 ---
 
-➡️ Continue to **[Level 4 — BSP & Device Bring‑Up](./level-04-bsp-bringup.md)**
+➡️ Continue to **[Level 4 — BSP & Device Bring-Up](./level-04-bsp-bringup.md)**
 
